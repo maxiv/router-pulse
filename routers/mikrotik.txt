@@ -1,0 +1,28 @@
+:local isp1;
+:local isp2;
+
+:set isp1 "0";
+:set isp2 "0";
+
+# Fist ISP: check link
+/interface ethernet cable-test ether10 once do={
+    :if ($"status" = "link-ok") do={
+        :set isp1 "1";
+    }
+};
+
+# Second ISP: check pppoe connection
+/interface pppoe-client {
+    monitor pppoe-isp2 once do={
+        :if ($"status" = "connected") do={
+            :set isp2 "1";
+        }
+        :if ($"status" = "waiting for packets...") do={
+            :if ([/ping 8.8.8.8 interface=pppoe-isp2 count=1 size=50 ]>0) do={
+                :set isp2 "1";
+            }
+        }
+    }
+}
+
+/tool fetch url="http://{YOUR-DOMAIN}/ping?key={ROUTER_KEY}&isp1=$[ $isp1 ]&isp2=$[ $isp2 ]" mode=http 
