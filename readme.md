@@ -8,7 +8,7 @@ It support 2 provider monitoring. Script for Mikrotik routers is included.
 1. Unpack archive or checkout from repository.
 2. Run Composer install:
 
-    php composer.phar install
+    composer install
 
 3. Copy .env.example to .env and edit settings in this file.
 4. Migrate database:
