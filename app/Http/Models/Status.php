@@ -3,6 +3,7 @@
 namespace App\Http\Models;
 
 use Illuminate\Support\Facades\DB;
+use \App\Http\Models\SMSNotifier;
 
 class Status
 {
@@ -13,6 +14,7 @@ class Status
         if (sizeof($last)) {
             $td = time() - $last[0]->session_ended_uts;
 
+            $data['id']            = $last[0]->id;
             $data['session_ended'] = $last[0]->session_ended;
             $data['td']            = $td;
             $data['is_internet']   = $td < 120;
@@ -45,6 +47,12 @@ class Status
             }
         }
         DB::insert("INSERT INTO statuses (ip, isp1, isp2, session_started, session_ended) VALUES ('" . $this->getRealIP() . "', '" . (bool)$isp1 . "', '" . (bool)$isp2 . "', NOW(), NOW())");
+    }
+
+    public function smsNotify($data) {
+        $sms = new SMSNotifier();
+        $sms->send($_ENV['SMS_LOGIN'], $_ENV['SMS_PASSWORD'], $_ENV['SMS_TO'], $_ENV['SMS_MESSAGE']);
+        DB::update("UPDATE statuses SET sms_notified = 1 WHERE id = '" . $data['id'] . "'");
     }
 
     private function getRealIP() {

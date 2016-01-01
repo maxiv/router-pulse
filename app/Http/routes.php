@@ -14,3 +14,4 @@
 $app->get('/', [ 'as' => 'index', 'uses' => 'Status@getStatus' ]);
 $app->get('/ping', [ 'as' => 'ping', 'uses' => 'Status@addStatus' ]);
 $app->get('/statistics', [ 'as' => 'statistics', 'uses' => 'Statistics@getMonth' ]);
+$app->get('/scheduler', [ 'as' => 'scheduler', 'uses' => 'Scheduler@run' ]);
