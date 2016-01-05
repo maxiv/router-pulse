@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Models\Status;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use \App\Http\Models\Setting;
@@ -9,9 +10,18 @@ use \App\Http\Models\Setting;
 class Settings extends BaseController
 {
     public function index() {
-        $data = Setting::getAll();
-        foreach ($data as $key => $value) {
-            $data[$key] = old($key, $value);
+        $settings = [
+            'sms_off_enabled',
+            'sms_off_to',
+            'sms_off_message',
+            'sms_on_enabled',
+            'sms_on_to',
+            'sms_on_message',
+            'sms_login',
+        ];
+
+        foreach ($settings as $key) {
+            $data[$key] = old($key, Setting::get($key));
         }
 
         return view('settings', $data);
@@ -28,6 +38,9 @@ class Settings extends BaseController
 
             Setting::set($key, $value);
         }
+
+        $status = new Status();
+        $status->recreate();
 
         return redirect('/settings')
             ->withSuccess('Settings saved');

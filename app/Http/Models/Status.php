@@ -56,6 +56,15 @@ class Status
         DB::insert("INSERT INTO statuses (ip, isp1, isp2, session_started, session_ended) VALUES ('" . $this->getRealIP() . "', '" . (bool)$isp1 . "', '" . (bool)$isp2 . "', NOW(), NOW())");
     }
 
+    public function recreate() {
+        $last = DB::select("SELECT * FROM statuses ORDER BY session_ended DESC LIMIT 1");
+        if (sizeof($last)) {
+            $session = $last[0];
+
+            DB::insert("INSERT INTO statuses (ip, isp1, isp2, session_started, session_ended) VALUES ('" . $session->ip . "', '" . $session->isp1 . "', '" . $session->isp2 . "', NOW(), NOW())");
+        }
+    }
+
     public function smsOfflineNotify($data) {
         $sms = new SMSNotifier();
         $sms->send(Setting::get('sms_login'), Setting::get('sms_password'), Setting::get('sms_off_to'), Setting::get('sms_off_message'));
