@@ -3,14 +3,14 @@
 namespace App\Http\Models;
 
 use Illuminate\Support\Facades\DB;
-use \App\Http\Models\SMSNotifier;
+use \App\Http\Models\Setting;
 
 class Status
 {
     public function get() {
         $data = [];
 
-        $last = DB::select("SELECT *, UNIX_TIMESTAMP(session_ended) as session_ended_uts FROM statuses ORDER BY session_ended DESC LIMIT 1");
+        $last = DB::select("SELECT *, UNIX_TIMESTAMP(session_started) as session_started_uts, UNIX_TIMESTAMP(session_ended) as session_ended_uts FROM statuses ORDER BY session_ended DESC LIMIT 2");
         if (sizeof($last)) {
             $td = time() - $last[0]->session_ended_uts;
 
@@ -21,7 +21,14 @@ class Status
 
             $data['is_isp1'] = (bool)$last[0]->isp1;
             $data['is_isp2'] = (bool)$last[0]->isp2;
-            $data['is_sms_notified'] = (bool)$last[0]->sms_notified;
+            $data['sms_off_notified'] = (bool)$last[0]->sms_off_notified;
+            $data['sms_on_notified'] = (bool)$last[0]->sms_on_notified;
+            $data['sms_on_need'] = (
+                isset($last[1]) && (
+                    ($last[0]->session_started_uts - $last[1]->session_ended_uts > 120 && (bool)$last[0]->isp1) ||
+                    ((bool)$last[0]->isp1 && !(bool)$last[1]->isp1)
+                )
+            );
 
             return $data;
         } else {
@@ -49,10 +56,16 @@ class Status
         DB::insert("INSERT INTO statuses (ip, isp1, isp2, session_started, session_ended) VALUES ('" . $this->getRealIP() . "', '" . (bool)$isp1 . "', '" . (bool)$isp2 . "', NOW(), NOW())");
     }
 
-    public function smsNotify($data) {
+    public function smsOfflineNotify($data) {
         $sms = new SMSNotifier();
-        $sms->send($_ENV['SMS_LOGIN'], $_ENV['SMS_PASSWORD'], $_ENV['SMS_TO'], $_ENV['SMS_MESSAGE']);
-        DB::update("UPDATE statuses SET sms_notified = 1 WHERE id = '" . $data['id'] . "'");
+        $sms->send(Setting::get('sms_login'), Setting::get('sms_password'), Setting::get('sms_off_to'), Setting::get('sms_off_message'));
+        DB::update("UPDATE statuses SET sms_off_notified = 1 WHERE id = '" . $data['id'] . "'");
+    }
+
+    public function smsOnlineNotify($data) {
+        $sms = new SMSNotifier();
+        $sms->send(Setting::get('sms_login'), Setting::get('sms_password'), Setting::get('sms_on_to'), Setting::get('sms_on_message'));
+        DB::update("UPDATE statuses SET sms_on_notified = 1 WHERE id = '" . $data['id'] . "'");
     }
 
     private function getRealIP() {

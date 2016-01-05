@@ -7,7 +7,7 @@ body.ok {
 body.no {
     background: #ffd5d3;
 }
-.container {
+.thin-container {
     text-align: center;
 }
 .internet {
@@ -22,6 +22,9 @@ body.no {
 }
 .internet span.no, .isp span.no {
     color: #820200;
+}
+.statistics {
+    margin-top: 15px;
 }
 .last-check {
     margin-top: 40px;
@@ -59,4 +62,8 @@ body.no {
 }
 .graph .axis:last-child {
     border-right: 0;
+}
+
+ul.nav-tabs {
+    margin-bottom: 15px;
 }

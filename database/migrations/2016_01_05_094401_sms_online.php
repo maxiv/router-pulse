@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class SmsNotification extends Migration
+class SmsOnline extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,8 @@ class SmsNotification extends Migration
     public function up()
     {
         Schema::table('statuses', function (Blueprint $table) {
-            $table->boolean('sms_notified');
+            $table->renameColumn('sms_notified', 'sms_off_notified');
+            $table->boolean('sms_on_notified');
         });
     }
 
@@ -25,7 +26,8 @@ class SmsNotification extends Migration
     public function down()
     {
         Schema::table('statuses', function (Blueprint $table) {
-            $table->dropColumn('sms_notified');
+            $table->renameColumn('sms_off_notified', 'sms_notified');
+            $table->dropColumn('sms_on_notified');
         });
     }
 }

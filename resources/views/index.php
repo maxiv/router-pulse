@@ -10,18 +10,20 @@
 	<link rel="stylesheet" href="/css/style.css">
 </head>
 	<body class="<?php echo ($is_internet ? 'ok' : 'no') ?>">
-	<div class="container">
+	<div class="thin-container">
 		<div class="internet">
-			Internet status: <span class="internet <?php echo ($is_internet ? 'ok' : 'no') ?>"><?php echo ($is_internet ? 'ok' : 'no') ?></span>
+			Internet status: <span class="internet <?php echo ($is_internet ? 'ok' : 'no') ?>"><?php echo ($is_internet ? 'online' : 'offline') ?></span>
 		</div>
 
 		<div class="last-check">At last check (<?php echo $session_ended ?> / <span id="timer"><?php echo $td; ?></span> seconds ago):</div>
 		<div class="isp">
-			Provider 1: <span class="internet <?php echo ($is_isp1 ? 'ok' : 'no') ?>"><?php echo ($is_isp1 ? 'ok' : 'no') ?></span>
+			Provider 1: <span class="internet <?php echo ($is_isp1 ? 'ok' : 'no') ?>"><?php echo ($is_isp1 ? 'online' : 'offline') ?></span>
 		</div>
 		<div class="isp">
-			Provider 2: <span class="internet <?php echo ($is_isp2 ? 'ok' : 'no') ?>"><?php echo ($is_isp2 ? 'ok' : 'no') ?></span>
+			Provider 2: <span class="internet <?php echo ($is_isp2 ? 'ok' : 'no') ?>"><?php echo ($is_isp2 ? 'online' : 'offline') ?></span>
 		</div>
+
+		<div class="statistics"><a href="/statistics">Statistics</a></div>
 	</div>
 
 	<script>

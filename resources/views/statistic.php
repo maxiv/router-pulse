@@ -16,6 +16,7 @@
 </head>
 <body>
 	<div class="container-fluid">
+		<h1>Statistics</h1>
 		<div class="row">
 			<table class="table">
 				<?php foreach ($sessions as $day => $items) { ?>
