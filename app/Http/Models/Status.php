@@ -107,7 +107,7 @@ class Status
             $message->subject(Setting::get('email_on_subject'));
         });
 
-        DB::update("UPDATE statuses SET sms_on_notified = 1 WHERE id = '" . $data['id'] . "'");
+        DB::update("UPDATE statuses SET email_on_notified = 1 WHERE id = '" . $data['id'] . "'");
     }
 
     private function getRealIP() {
