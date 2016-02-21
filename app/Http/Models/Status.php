@@ -4,6 +4,7 @@ namespace App\Http\Models;
 
 use Illuminate\Support\Facades\DB;
 use \App\Http\Models\Setting;
+use Illuminate\Support\Facades\Mail;
 
 class Status
 {
@@ -13,6 +14,12 @@ class Status
         $last = DB::select("SELECT *, UNIX_TIMESTAMP(session_started) as session_started_uts, UNIX_TIMESTAMP(session_ended) as session_ended_uts FROM statuses ORDER BY session_ended DESC LIMIT 2");
         if (sizeof($last)) {
             $td = time() - $last[0]->session_ended_uts;
+            $online_need = (
+                isset($last[1]) && (
+                    ($last[0]->session_started_uts - $last[1]->session_ended_uts > 120 && (bool)$last[0]->isp1) ||
+                    ((bool)$last[0]->isp1 && !(bool)$last[1]->isp1)
+                )
+            );
 
             $data['id']            = $last[0]->id;
             $data['session_ended'] = $last[0]->session_ended;
@@ -21,14 +28,14 @@ class Status
 
             $data['is_isp1'] = (bool)$last[0]->isp1;
             $data['is_isp2'] = (bool)$last[0]->isp2;
+
             $data['sms_off_notified'] = (bool)$last[0]->sms_off_notified;
             $data['sms_on_notified'] = (bool)$last[0]->sms_on_notified;
-            $data['sms_on_need'] = (
-                isset($last[1]) && (
-                    ($last[0]->session_started_uts - $last[1]->session_ended_uts > 120 && (bool)$last[0]->isp1) ||
-                    ((bool)$last[0]->isp1 && !(bool)$last[1]->isp1)
-                )
-            );
+            $data['sms_on_need'] = $online_need;
+
+            $data['email_off_notified'] = (bool)$last[0]->email_off_notified;
+            $data['email_on_notified'] = (bool)$last[0]->email_on_notified;
+            $data['email_on_need'] = $online_need;
 
             return $data;
         } else {
@@ -74,6 +81,32 @@ class Status
     public function smsOnlineNotify($data) {
         $sms = new SMSNotifier();
         $sms->send(Setting::get('sms_login'), Setting::get('sms_password'), Setting::get('sms_on_to'), Setting::get('sms_on_message'));
+        DB::update("UPDATE statuses SET sms_on_notified = 1 WHERE id = '" . $data['id'] . "'");
+    }
+
+    public function emailOfflineNotify($data) {
+        $to = explode(',', Setting::get('email_off_to'));
+
+        Mail::raw(Setting::get('email_off_message'), function($message) use ($to)
+        {
+            $message->from(Setting::get('email_from'), 'Pulse');
+            $message->to($to);
+            $message->subject(Setting::get('email_off_subject'));
+        });
+        
+        DB::update("UPDATE statuses SET email_off_notified = 1 WHERE id = '" . $data['id'] . "'");
+    }
+
+    public function emailOnlineNotify($data) {
+        $to = explode(',', Setting::get('email_on_to'));
+
+        Mail::raw(Setting::get('email_on_message'), function($message) use ($to)
+        {
+            $message->from(Setting::get('email_from'), 'Pulse');
+            $message->to($to);
+            $message->subject(Setting::get('email_on_subject'));
+        });
+
         DB::update("UPDATE statuses SET sms_on_notified = 1 WHERE id = '" . $data['id'] . "'");
     }
 

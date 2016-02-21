@@ -18,6 +18,16 @@ class Settings extends BaseController
             'sms_on_to',
             'sms_on_message',
             'sms_login',
+
+            'email_off_enabled',
+            'email_off_to',
+            'email_off_subject',
+            'email_off_message',
+            'email_on_enabled',
+            'email_on_to',
+            'email_on_subject',
+            'email_on_message',
+            'email_from',
         ];
 
         foreach ($settings as $key) {

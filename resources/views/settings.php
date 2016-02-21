@@ -34,54 +34,101 @@
 			<div>
 				<ul class="nav nav-tabs" role="tablist">
 					<li role="presentation" class="active"><a href="#notification" aria-controls="notification" role="tab" data-toggle="tab">Notification</a></li>
-					<li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
-					<li role="presentation"><a href="#smsgate" aria-controls="smsgate" role="tab" data-toggle="tab">SMS gate</a></li>
-
+					<li role="presentation"><a href="#sms" aria-controls="sms" role="tab" data-toggle="tab">SMS</a></li>
+					<li role="presentation"><a href="#email" aria-controls="email" role="tab" data-toggle="tab">E-mail</a></li>
 				</ul>
 				<div class="tab-content">
 					<div role="tabpanel" class="tab-pane active" id="notification">
 						<div class="form-group">
-							<label class="col-sm-2 control-label"><span class="text-danger">OFFLINE</span> SMS notify</label>
-							<div class="col-sm-10">
-								<div class="radio">
-									<label>
-										<input type="radio" name="sms_off_enabled" value="1"<?php echo ($sms_off_enabled == '1' ? ' checked' : '') ?>> Yes
-									</label>
-								</div>
-								<div class="radio">
-									<label>
-										<input type="radio" name="sms_off_enabled" value="2"<?php echo ($sms_off_enabled == '2' ? ' checked' : '') ?>> Once
-									</label>
-								</div>
-								<div class="radio">
-									<label>
-										<input type="radio" name="sms_off_enabled" value="0"<?php echo ($sms_off_enabled == '0' ? ' checked' : '') ?>> No
-									</label>
-								</div>
+							<div class="col-sm-4">
+								<table class="table table-condensed">
+									<tr>
+										<th width="50%"><span class="text-danger">OFFLINE</span></th>
+										<th width="25%">SMS</th>
+										<th width="25%">E-mail</th>
+									</tr>
+									<tr>
+										<td class="bulk">Yes</td>
+										<td>
+											<input type="radio" name="sms_off_enabled" value="1"<?php echo ($sms_off_enabled == '1' ? ' checked' : '') ?>>
+										</td>
+										<td>
+											<input type="radio" name="email_off_enabled" value="1"<?php echo ($email_off_enabled == '1' ? ' checked' : '') ?>>
+										</td>
+									</tr>
+									<tr>
+										<td class="bulk">Once</td>
+										<td>
+											<input type="radio" name="sms_off_enabled" value="2"<?php echo ($sms_off_enabled == '2' ? ' checked' : '') ?>>
+										</td>
+										<td>
+											<input type="radio" name="email_off_enabled" value="2"<?php echo ($email_off_enabled == '2' ? ' checked' : '') ?>>
+										</td>
+									</tr>
+									<tr>
+										<td class="bulk">No</td>
+										<td>
+											<input type="radio" name="sms_off_enabled" value="0"<?php echo ($sms_off_enabled == '0' ? ' checked' : '') ?>>
+										</td>
+										<td>
+											<input type="radio" name="email_off_enabled" value="0"<?php echo ($email_off_enabled == '0' ? ' checked' : '') ?>>
+										</td>
+									</tr>
+								</table>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label"><span class="text-success">ONLINE</span> SMS notify</label>
-							<div class="col-sm-10">
-								<div class="radio">
-									<label>
-										<input type="radio" name="sms_on_enabled" value="1"<?php echo ($sms_on_enabled == '1' ? ' checked' : '') ?>> Yes
-									</label>
-								</div>
-								<div class="radio">
-									<label>
-										<input type="radio" name="sms_on_enabled" value="2"<?php echo ($sms_on_enabled == '2' ? ' checked' : '') ?>> Once
-									</label>
-								</div>
-								<div class="radio">
-									<label>
-										<input type="radio" name="sms_on_enabled" value="0"<?php echo ($sms_on_enabled == '0' ? ' checked' : '') ?>> No
-									</label>
-								</div>
+							<div class="col-sm-4">
+								<table class="table table-condensed">
+									<tr>
+										<th width="50%"><span class="text-success">ONLINE</span></th>
+										<th width="25%">SMS</th>
+										<th width="25%">E-mail</th>
+									</tr>
+									<tr>
+										<td class="bulk">Yes</td>
+										<td>
+											<input type="radio" name="sms_on_enabled" value="1"<?php echo ($sms_on_enabled == '1' ? ' checked' : '') ?>>
+										</td>
+										<td>
+											<input type="radio" name="email_on_enabled" value="1"<?php echo ($email_on_enabled == '1' ? ' checked' : '') ?>>
+										</td>
+									</tr>
+									<tr>
+										<td class="bulk">Once</td>
+										<td>
+											<input type="radio" name="sms_on_enabled" value="2"<?php echo ($sms_on_enabled == '2' ? ' checked' : '') ?>>
+										</td>
+										<td>
+											<input type="radio" name="email_on_enabled" value="2"<?php echo ($email_on_enabled == '2' ? ' checked' : '') ?>>
+										</td>
+									</tr>
+									<tr>
+										<td class="bulk">No</td>
+										<td>
+											<input type="radio" name="sms_on_enabled" value="0"<?php echo ($sms_on_enabled == '0' ? ' checked' : '') ?>>
+										</td>
+										<td>
+											<input type="radio" name="email_on_enabled" value="0"<?php echo ($email_on_enabled == '0' ? ' checked' : '') ?>>
+										</td>
+									</tr>
+								</table>
 							</div>
 						</div>
 					</div>
-					<div role="tabpanel" class="tab-pane" id="messages">
+					<div role="tabpanel" class="tab-pane" id="sms">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">SMS gate login:</label>
+							<div class="col-sm-10">
+								<input type="text" name="sms_login" class="form-control" value="<?php echo $sms_login ?>">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">SMS gate password:</label>
+							<div class="col-sm-10">
+								<input type="password" name="sms_password" class="form-control" placeholder="Enter, if need to change">
+							</div>
+						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label"><span class="text-danger">OFFLINE</span> SMS to:</label>
 							<div class="col-sm-10">
@@ -107,24 +154,56 @@
 							</div>
 						</div>
 					</div>
-					<div role="tabpanel" class="tab-pane" id="smsgate">
+					<div role="tabpanel" class="tab-pane" id="email">
 						<div class="form-group">
-							<label class="col-sm-2 control-label">SMS gate login:</label>
+							<label class="col-sm-2 control-label">E-mail from:</label>
 							<div class="col-sm-10">
-								<input type="text" name="sms_login" class="form-control" value="<?php echo $sms_login ?>">
+								<input type="text" name="email_from" class="form-control" placeholder="Enter e-mail sender" value="<?php echo $email_from ?>">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><span class="text-danger">OFFLINE</span> E-mail to:</label>
+							<div class="col-sm-10">
+								<input type="text" name="email_off_to" class="form-control" placeholder="Enter e-mail" value="<?php echo $email_off_to; ?>">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label">SMS gate password:</label>
+							<label class="col-sm-2 control-label"><span class="text-danger">OFFLINE</span> E-mail subject:</label>
 							<div class="col-sm-10">
-								<input type="password" name="sms_password" class="form-control" placeholder="Enter, if need to change">
+								<input type="text" name="email_off_subject" class="form-control" placeholder="Enter subject" value="<?php echo $email_off_subject; ?>">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><span class="text-danger">OFFLINE</span> E-mail message:</label>
+							<div class="col-sm-10">
+								<input type="text" name="email_off_message" class="form-control" placeholder="Enter message text" value="<?php echo $email_off_message; ?>">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><span class="text-success">ONLINE</span> E-mail to:</label>
+							<div class="col-sm-10">
+								<input type="text" name="email_on_to" class="form-control" placeholder="Enter e-mail" value="<?php echo $email_on_to; ?>">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><span class="text-success">ONLINE</span> E-mail subject:</label>
+							<div class="col-sm-10">
+								<input type="text" name="email_on_subject" class="form-control" placeholder="Enter subject" value="<?php echo $email_on_subject; ?>">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><span class="text-success">ONLINE</span> E-mail message:</label>
+							<div class="col-sm-10">
+								<input type="text" name="email_on_message" class="form-control" placeholder="Enter message text" value="<?php echo $email_on_message; ?>">
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10">
+				<div class="col-sm-4">
 					<button type="submit" class="btn btn-primary">Save</button>
 				</div>
 			</div>
@@ -133,5 +212,13 @@
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+	<script>
+		$(function () {
+			$(document).on('click', '.bulk', function () {
+				$(this).closest('tr').find('input').prop('checked', true);
+			});
+		});
+	</script>
 </body>
 </html>

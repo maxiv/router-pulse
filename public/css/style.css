@@ -67,3 +67,7 @@ body.no {
 ul.nav-tabs {
     margin-bottom: 15px;
 }
+
+.bulk {
+    cursor: pointer;
+}

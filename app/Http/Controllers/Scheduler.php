@@ -9,6 +9,7 @@ use \App\Http\Models\Setting;
 class Scheduler extends BaseController
 {
     public function run() {
+        // SMS
         if (Setting::get('sms_off_enabled', '0') != '0') {
             $status = new ModelStatus();
             $data = $status->get();
@@ -31,6 +32,33 @@ class Scheduler extends BaseController
 
                 if (Setting::get('sms_on_enabled', '0') == '2') {
                     Setting::set('sms_on_enabled', '0');
+                }
+            }
+        }
+
+        // E-mail
+        if (Setting::get('email_off_enabled', '0') != '0') {
+            $status = new ModelStatus();
+            $data = $status->get();
+
+            if (!$data['is_internet'] && !$data['email_off_notified']) {
+                $status->emailOfflineNotify($data);
+
+                if (Setting::get('email_off_enabled', '0') == '2') {
+                    Setting::set('email_off_enabled', '0');
+                }
+            }
+        }
+
+        if (Setting::get('email_on_enabled', '0') != '0') {
+            $status = new ModelStatus();
+            $data = $status->get();
+
+            if ($data['is_internet'] && !$data['email_on_notified'] && $data['email_on_need']) {
+                $status->emailOnlineNotify($data);
+
+                if (Setting::get('email_on_enabled', '0') == '2') {
+                    Setting::set('email_on_enabled', '0');
                 }
             }
         }
