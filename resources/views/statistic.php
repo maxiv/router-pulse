@@ -30,7 +30,8 @@
 									$tooltip = $item->session_started->format('H:i') . ' - ' . $item->session_ended->format('H:i');
 
 									$class = 'online';
-
+									$text = '';
+									
 									if ($item->isp1) {
 										$class .= ' isp1';
 										$text = 'P1';
