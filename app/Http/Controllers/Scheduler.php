@@ -62,5 +62,32 @@ class Scheduler extends BaseController
                 }
             }
         }
+        
+	    // Telegram
+	    if (Setting::get('telegram_off_enabled', '0') != '0') {
+		    $status = new ModelStatus();
+		    $data = $status->get();
+
+		    if (!$data['is_internet'] && !$data['telegram_off_notified']) {
+			    $status->telegramOfflineNotify($data);
+
+			    if (Setting::get('telegram_off_enabled', '0') == '2') {
+				    Setting::set('telegram_off_enabled', '0');
+			    }
+		    }
+	    }
+
+	    if (Setting::get('telegram_on_enabled', '0') != '0') {
+		    $status = new ModelStatus();
+		    $data = $status->get();
+
+		    if ($data['is_internet'] && !$data['telegram_on_notified'] && $data['telegram_on_need']) {
+			    $status->telegramOnlineNotify($data);
+
+			    if (Setting::get('telegram_on_enabled', '0') == '2') {
+				    Setting::set('telegram_on_enabled', '0');
+			    }
+		    }
+	    }
     }
 }

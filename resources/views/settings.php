@@ -36,6 +36,7 @@
 					<li role="presentation" class="active"><a href="#notification" aria-controls="notification" role="tab" data-toggle="tab">Notification</a></li>
 					<li role="presentation"><a href="#sms" aria-controls="sms" role="tab" data-toggle="tab">SMS</a></li>
 					<li role="presentation"><a href="#email" aria-controls="email" role="tab" data-toggle="tab">E-mail</a></li>
+					<li role="presentation"><a href="#telegram" aria-controls="telegram" role="tab" data-toggle="tab">Telegram</a></li>
 				</ul>
 				<div class="tab-content">
 					<div role="tabpanel" class="tab-pane active" id="notification">
@@ -46,6 +47,7 @@
 										<th width="50%"><span class="text-danger">OFFLINE</span></th>
 										<th width="25%">SMS</th>
 										<th width="25%">E-mail</th>
+                                        <th width="25%">Telegram</th>
 									</tr>
 									<tr>
 										<td class="bulk">Yes</td>
@@ -54,6 +56,9 @@
 										</td>
 										<td>
 											<input type="radio" name="email_off_enabled" value="1"<?php echo ($email_off_enabled == '1' ? ' checked' : '') ?>>
+										</td>
+										<td>
+											<input type="radio" name="telegram_off_enabled" value="1"<?php echo ($telegram_off_enabled == '1' ? ' checked' : '') ?>>
 										</td>
 									</tr>
 									<tr>
@@ -64,6 +69,9 @@
 										<td>
 											<input type="radio" name="email_off_enabled" value="2"<?php echo ($email_off_enabled == '2' ? ' checked' : '') ?>>
 										</td>
+										<td>
+											<input type="radio" name="telegram_off_enabled" value="2"<?php echo ($telegram_off_enabled == '2' ? ' checked' : '') ?>>
+										</td>
 									</tr>
 									<tr>
 										<td class="bulk">No</td>
@@ -72,6 +80,9 @@
 										</td>
 										<td>
 											<input type="radio" name="email_off_enabled" value="0"<?php echo ($email_off_enabled == '0' ? ' checked' : '') ?>>
+										</td>
+										<td>
+											<input type="radio" name="telegram_off_enabled" value="0"<?php echo ($telegram_off_enabled == '0' ? ' checked' : '') ?>>
 										</td>
 									</tr>
 								</table>
@@ -84,6 +95,7 @@
 										<th width="50%"><span class="text-success">ONLINE</span></th>
 										<th width="25%">SMS</th>
 										<th width="25%">E-mail</th>
+										<th width="25%">Telegram</th>
 									</tr>
 									<tr>
 										<td class="bulk">Yes</td>
@@ -92,6 +104,9 @@
 										</td>
 										<td>
 											<input type="radio" name="email_on_enabled" value="1"<?php echo ($email_on_enabled == '1' ? ' checked' : '') ?>>
+										</td>
+										<td>
+											<input type="radio" name="telegram_on_enabled" value="1"<?php echo ($telegram_on_enabled == '1' ? ' checked' : '') ?>>
 										</td>
 									</tr>
 									<tr>
@@ -102,6 +117,9 @@
 										<td>
 											<input type="radio" name="email_on_enabled" value="2"<?php echo ($email_on_enabled == '2' ? ' checked' : '') ?>>
 										</td>
+										<td>
+											<input type="radio" name="telegram_on_enabled" value="2"<?php echo ($telegram_on_enabled == '2' ? ' checked' : '') ?>>
+										</td>
 									</tr>
 									<tr>
 										<td class="bulk">No</td>
@@ -110,6 +128,9 @@
 										</td>
 										<td>
 											<input type="radio" name="email_on_enabled" value="0"<?php echo ($email_on_enabled == '0' ? ' checked' : '') ?>>
+										</td>
+										<td>
+											<input type="radio" name="telegram_on_enabled" value="0"<?php echo ($telegram_on_enabled == '0' ? ' checked' : '') ?>>
 										</td>
 									</tr>
 								</table>
@@ -197,6 +218,39 @@
 							<label class="col-sm-2 control-label"><span class="text-success">ONLINE</span> E-mail message:</label>
 							<div class="col-sm-10">
 								<input type="text" name="email_on_message" class="form-control" placeholder="Enter message text" value="<?php echo $email_on_message; ?>">
+							</div>
+						</div>
+					</div>
+					<div role="tabpanel" class="tab-pane" id="telegram">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Telegram bot key:</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="telegram_bot_key" class="form-control" placeholder="Enter, if need to change">
+                            </div>
+                        </div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><span class="text-danger">OFFLINE</span> Message to:</label>
+							<div class="col-sm-10">
+								<input type="text" name="telegram_off_to" class="form-control" placeholder="Enter username" value="<?php echo $telegram_off_to; ?>">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><span class="text-danger">OFFLINE</span> Message:</label>
+							<div class="col-sm-10">
+								<input type="text" name="telegram_off_message" class="form-control" placeholder="Enter message text" value="<?php echo $telegram_off_message; ?>">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><span class="text-success">ONLINE</span> Message to:</label>
+							<div class="col-sm-10">
+								<input type="text" name="telegram_on_to" class="form-control" placeholder="Enter username" value="<?php echo $telegram_on_to; ?>">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><span class="text-success">ONLINE</span> Message message:</label>
+							<div class="col-sm-10">
+								<input type="text" name="telegram_on_message" class="form-control" placeholder="Enter message text" value="<?php echo $telegram_on_message; ?>">
 							</div>
 						</div>
 					</div>

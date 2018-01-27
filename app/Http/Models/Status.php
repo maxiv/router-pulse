@@ -3,8 +3,8 @@
 namespace App\Http\Models;
 
 use Illuminate\Support\Facades\DB;
-use \App\Http\Models\Setting;
 use Illuminate\Support\Facades\Mail;
+use \App\Http\Models\Telegram;
 
 class Status
 {
@@ -36,6 +36,10 @@ class Status
             $data['email_off_notified'] = (bool)$last[0]->email_off_notified;
             $data['email_on_notified'] = (bool)$last[0]->email_on_notified;
             $data['email_on_need'] = $online_need;
+
+            $data['telegram_off_notified'] = (bool)$last[0]->telegram_off_notified;
+            $data['telegram_on_notified'] = (bool)$last[0]->telegram_on_notified;
+            $data['telegram_on_need'] = $online_need;
 
             return $data;
         } else {
@@ -109,6 +113,28 @@ class Status
 
         DB::update("UPDATE statuses SET email_on_notified = 1 WHERE id = '" . $data['id'] . "'");
     }
+
+	public function telegramOfflineNotify($data) {
+		$telegram = new Telegram(Setting::get('telegram_bot_key'));
+
+		$to = explode(',', Setting::get('telegram_off_to'));
+		foreach ($to as $item) {
+			$telegram->sendMessage($item, Setting::get('telegram_off_message'));
+		}
+
+		DB::update("UPDATE statuses SET telegram_off_notified = 1 WHERE id = '" . $data['id'] . "'");
+	}
+
+	public function telegramOnlineNotify($data) {
+		$telegram = new Telegram(Setting::get('telegram_bot_key'));
+
+		$to = explode(',', Setting::get('telegram_on_to'));
+		foreach ($to as $item) {
+			$telegram->sendMessage($item, Setting::get('telegram_on_message'));
+		}
+
+		DB::update("UPDATE statuses SET telegram_on_notified = 1 WHERE id = '" . $data['id'] . "'");
+	}
 
     private function getRealIP() {
         $result = array();

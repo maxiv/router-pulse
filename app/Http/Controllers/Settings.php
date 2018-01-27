@@ -28,6 +28,14 @@ class Settings extends BaseController
             'email_on_subject',
             'email_on_message',
             'email_from',
+
+	        'telegram_bot_key',
+	        'telegram_off_enabled',
+	        'telegram_off_to',
+	        'telegram_off_message',
+			'telegram_on_enabled',
+	        'telegram_on_to',
+	        'telegram_on_message',
         ];
 
         foreach ($settings as $key) {
@@ -43,6 +51,9 @@ class Settings extends BaseController
                 continue;
             }
             if ($key == 'sms_password' && $value == '') {
+                continue;
+            }
+            if ($key == 'telegram_bot_key' && $value == '') {
                 continue;
             }
 
