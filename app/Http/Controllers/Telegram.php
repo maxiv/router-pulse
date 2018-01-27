@@ -16,6 +16,6 @@ class Telegram extends BaseController
 
     public function sethook() {
 	    $telegram = new \App\Http\Models\Telegram(Setting::get('telegram_bot_key'));
-	    echo $telegram->setWebhook();
+	    var_dump($telegram->setWebhook());
     }
 }
