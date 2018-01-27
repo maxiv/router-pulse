@@ -26,7 +26,7 @@ class Telegram
 	public function setWebhook()
 	{
         $data = [
-        	'url' => route('telegram_sethook'),
+        	'url' => route('telegram_webhook'),
         ];
 
 		return $this->send('setWebhook', $data);
