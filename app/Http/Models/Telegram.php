@@ -26,7 +26,7 @@ class Telegram
 	public function setWebhook()
 	{
         $data = [
-        	'url' => $this->getChatId(route('telegram_sethook')),
+        	'url' => route('telegram_sethook'),
         ];
 
 		return $this->send('setWebhook', $data);
