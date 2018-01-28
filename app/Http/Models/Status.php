@@ -8,6 +8,8 @@ use \App\Http\Models\Telegram;
 
 class Status
 {
+	private $_timeout = 90;
+
     public function get() {
         $data = [];
 
@@ -16,7 +18,7 @@ class Status
             $td = time() - $last[0]->session_ended_uts;
             $online_need = (
                 isset($last[1]) && (
-                    ($last[0]->session_started_uts - $last[1]->session_ended_uts > 120 && (bool)$last[0]->isp1) ||
+                    ($last[0]->session_started_uts - $last[1]->session_ended_uts > $this->_timeout && (bool)$last[0]->isp1) ||
                     ((bool)$last[0]->isp1 && !(bool)$last[1]->isp1)
                 )
             );
@@ -24,7 +26,7 @@ class Status
             $data['id']            = $last[0]->id;
             $data['session_ended'] = $last[0]->session_ended;
             $data['td']            = $td;
-            $data['is_internet']   = $td < 120;
+            $data['is_internet']   = $td < $this->_timeout;
 
             $data['is_isp1'] = (bool)$last[0]->isp1;
             $data['is_isp2'] = (bool)$last[0]->isp2;
@@ -59,7 +61,7 @@ class Status
         if (sizeof($last)) {
             $session = $last[0];
 
-            if ($session->delay < 120 && $session->new_day == '0' && $isp1 == $session->isp1 && $isp2 == $session->isp2) {
+            if ($session->delay < $this->_timeout && $session->new_day == '0' && $isp1 == $session->isp1 && $isp2 == $session->isp2) {
                 DB::update("UPDATE statuses SET session_ended = NOW() WHERE id = '" . $session->id . "'");
                 return '';
             }
