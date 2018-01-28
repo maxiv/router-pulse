@@ -15,8 +15,13 @@ class Telegram
 
 	public function sendMessage($to, $message)
 	{
+		$chat_id = $this->getChatId($to);
+		if (!$chat_id) {
+			return false;
+		}
+
         $data = [
-        	'chat_id' => $this->getChatId($to),
+        	'chat_id' => $chat_id,
 	        'text' => $message,
         ];
 
@@ -77,30 +82,38 @@ class Telegram
 
     private function get($method)
     {
-	    $result = file_get_contents($this->_url . $method);
-	    if ($result === false) {
-	    	return false;
-	    }
+	    try {
+		    $result = file_get_contents($this->_url . $method);
+		    if ($result === false) {
+		        return false;
+		    }
 
-	    return json_decode($result);
+		    return json_decode($result);
+	    } catch (\Exception $e) {
+		    return false;
+	    }
     }
 
 	private function send($method, $data)
 	{
-	    $options = array(
-		    'http' => array(
-			    'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-			    'method'  => 'POST',
-			    'content' => http_build_query($data)
-		    )
-	    );
-	    $context = stream_context_create($options);
-	    $result = file_get_contents($this->_url . $method, false, $context);
-	    if ($result === false) {
-	    	return false;
-	    }
+		try {
+			$options = array(
+				'http' => array(
+					'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+					'method'  => 'POST',
+					'content' => http_build_query($data)
+				)
+			);
+			$context = stream_context_create($options);
+			$result = file_get_contents($this->_url . $method, false, $context);
+			if ($result === false) {
+				return false;
+			}
 
-	    return json_decode($result);
+			return json_decode($result);
+		} catch (\Exception $e) {
+			return false;
+		}
     }
 
     private function getChatId($username)
