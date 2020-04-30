@@ -89,5 +89,32 @@ class Scheduler extends BaseController
 			    }
 		    }
 	    }
+
+        // Viber
+        if (Setting::get('viber_off_enabled', '0') != '0') {
+            $status = new ModelStatus();
+            $data = $status->get();
+
+            if (!$data['is_internet'] && !$data['viber_off_notified']) {
+                $status->viberOfflineNotify($data);
+
+                if (Setting::get('viber_off_enabled', '0') == '2') {
+                    Setting::set('viber_off_enabled', '0');
+                }
+            }
+        }
+
+        if (Setting::get('viber_on_enabled', '0') != '0') {
+            $status = new ModelStatus();
+            $data = $status->get();
+
+            if ($data['is_internet'] && !$data['viber_on_notified'] && $data['viber_on_need']) {
+                $status->viberOnlineNotify($data);
+
+                if (Setting::get('viber_on_enabled', '0') == '2') {
+                    Setting::set('viber_on_enabled', '0');
+                }
+            }
+        }
     }
 }

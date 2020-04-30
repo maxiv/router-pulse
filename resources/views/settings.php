@@ -37,6 +37,7 @@
 					<li role="presentation"><a href="#sms" aria-controls="sms" role="tab" data-toggle="tab">SMS</a></li>
 					<li role="presentation"><a href="#email" aria-controls="email" role="tab" data-toggle="tab">E-mail</a></li>
 					<li role="presentation"><a href="#telegram" aria-controls="telegram" role="tab" data-toggle="tab">Telegram</a></li>
+                    <li role="presentation"><a href="#viber" aria-controls="viber" role="tab" data-toggle="tab">Viber</a></li>
 				</ul>
 				<div class="tab-content">
 					<div role="tabpanel" class="tab-pane active" id="notification">
@@ -45,9 +46,10 @@
 								<table class="table table-condensed">
 									<tr>
 										<th width="50%"><span class="text-danger">OFFLINE</span></th>
-										<th width="25%">SMS</th>
-										<th width="25%">E-mail</th>
-                                        <th width="25%">Telegram</th>
+										<th width="20%">SMS</th>
+										<th width="20%">E-mail</th>
+                                        <th width="20%">Telegram</th>
+                                        <th width="20%">Viber</th>
 									</tr>
 									<tr>
 										<td class="bulk">Yes</td>
@@ -60,6 +62,9 @@
 										<td>
 											<input type="radio" name="telegram_off_enabled" value="1"<?php echo ($telegram_off_enabled == '1' ? ' checked' : '') ?>>
 										</td>
+                                        <td>
+                                            <input type="radio" name="viber_off_enabled" value="1"<?php echo ($viber_off_enabled == '1' ? ' checked' : '') ?>>
+                                        </td>
 									</tr>
 									<tr>
 										<td class="bulk">Once</td>
@@ -72,6 +77,9 @@
 										<td>
 											<input type="radio" name="telegram_off_enabled" value="2"<?php echo ($telegram_off_enabled == '2' ? ' checked' : '') ?>>
 										</td>
+                                        <td>
+                                            <input type="radio" name="viber_off_enabled" value="2"<?php echo ($viber_off_enabled == '2' ? ' checked' : '') ?>>
+                                        </td>
 									</tr>
 									<tr>
 										<td class="bulk">No</td>
@@ -84,6 +92,9 @@
 										<td>
 											<input type="radio" name="telegram_off_enabled" value="0"<?php echo ($telegram_off_enabled == '0' ? ' checked' : '') ?>>
 										</td>
+                                        <td>
+                                            <input type="radio" name="viber_off_enabled" value="0"<?php echo ($viber_off_enabled == '0' ? ' checked' : '') ?>>
+                                        </td>
 									</tr>
 								</table>
 							</div>
@@ -96,6 +107,7 @@
 										<th width="25%">SMS</th>
 										<th width="25%">E-mail</th>
 										<th width="25%">Telegram</th>
+                                        <th width="25%">Viber</th>
 									</tr>
 									<tr>
 										<td class="bulk">Yes</td>
@@ -108,6 +120,9 @@
 										<td>
 											<input type="radio" name="telegram_on_enabled" value="1"<?php echo ($telegram_on_enabled == '1' ? ' checked' : '') ?>>
 										</td>
+                                        <td>
+                                            <input type="radio" name="viber_on_enabled" value="1"<?php echo ($viber_on_enabled == '1' ? ' checked' : '') ?>>
+                                        </td>
 									</tr>
 									<tr>
 										<td class="bulk">Once</td>
@@ -120,6 +135,9 @@
 										<td>
 											<input type="radio" name="telegram_on_enabled" value="2"<?php echo ($telegram_on_enabled == '2' ? ' checked' : '') ?>>
 										</td>
+                                        <td>
+                                            <input type="radio" name="viber_on_enabled" value="2"<?php echo ($viber_on_enabled == '2' ? ' checked' : '') ?>>
+                                        </td>
 									</tr>
 									<tr>
 										<td class="bulk">No</td>
@@ -132,6 +150,9 @@
 										<td>
 											<input type="radio" name="telegram_on_enabled" value="0"<?php echo ($telegram_on_enabled == '0' ? ' checked' : '') ?>>
 										</td>
+                                        <td>
+                                            <input type="radio" name="viber_on_enabled" value="0"<?php echo ($viber_on_enabled == '0' ? ' checked' : '') ?>>
+                                        </td>
 									</tr>
 								</table>
 							</div>
@@ -254,6 +275,39 @@
 							</div>
 						</div>
 					</div>
+                    <div role="tabpanel" class="tab-pane" id="viber">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Viber bot key:</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="viber_bot_key" class="form-control" placeholder="Enter, if need to change">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><span class="text-danger">OFFLINE</span> Message to:</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="viber_off_to" class="form-control" placeholder="Enter username" value="<?php echo $viber_off_to; ?>">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><span class="text-danger">OFFLINE</span> Message:</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="viber_off_message" class="form-control" placeholder="Enter message text" value="<?php echo $viber_off_message; ?>">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><span class="text-success">ONLINE</span> Message to:</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="viber_on_to" class="form-control" placeholder="Enter username" value="<?php echo $viber_on_to; ?>">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><span class="text-success">ONLINE</span> Message message:</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="viber_on_message" class="form-control" placeholder="Enter message text" value="<?php echo $viber_on_message; ?>">
+                            </div>
+                        </div>
+                    </div>
 				</div>
 			</div>
 			<div class="form-group">
