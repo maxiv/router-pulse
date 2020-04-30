@@ -19,3 +19,5 @@ $app->get('/settings', [ 'as' => 'settings', 'uses' => 'Settings@index' ]);
 $app->post('/settings', [ 'uses' => 'Settings@store' ]);
 $app->post('/telegram/webhook', [ 'as' => 'telegram_webhook', 'uses' => 'Telegram@webhook' ]);
 $app->get('/telegram/sethook', [ 'as' => 'telegram_sethook', 'uses' => 'Telegram@sethook' ]);
+$app->post('/viber/webhook', [ 'as' => 'viber_webhook', 'uses' => 'Viber@webhook' ]);
+$app->get('/viber/sethook', [ 'as' => 'viber_sethook', 'uses' => 'Viberset@sethook' ]);

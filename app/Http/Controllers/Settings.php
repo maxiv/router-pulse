@@ -36,6 +36,14 @@ class Settings extends BaseController
 			'telegram_on_enabled',
 	        'telegram_on_to',
 	        'telegram_on_message',
+
+            'viber_bot_key',
+            'viber_off_enabled',
+            'viber_off_to',
+            'viber_off_message',
+            'viber_on_enabled',
+            'viber_on_to',
+            'viber_on_message',
         ];
 
         foreach ($settings as $key) {
@@ -54,6 +62,9 @@ class Settings extends BaseController
                 continue;
             }
             if ($key == 'telegram_bot_key' && $value == '') {
+                continue;
+            }
+            if ($key == 'viber_bot_key' && $value == '') {
                 continue;
             }
 
