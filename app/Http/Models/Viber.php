@@ -40,7 +40,7 @@ class Viber
         $tu = ViberUser::where('viber_id', $data->sender->id)->first();
         if (!$tu) {
             $tu = ViberUser::create([
-                'viber_id' => $last->sender->id,
+                'viber_id' => $data->sender->id,
             ]);
             $tu->save();
         }
