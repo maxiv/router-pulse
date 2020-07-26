@@ -4,9 +4,6 @@ namespace App\Http\Models;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use \App\Http\Models\Telegram;
-use \App\Http\Models\Viber;
-use \App\Http\Models\Viberset;
 
 class Status
 {
@@ -30,8 +27,12 @@ class Status
             $data['td']            = $td;
             $data['is_internet']   = $td < $this->_timeout;
 
-            $data['is_isp1'] = (bool)$last[0]->isp1;
-            $data['is_isp2'] = (bool)$last[0]->isp2;
+            if (!$data['is_internet']) {
+	            $data['is_isp1'] = $data['is_isp2'] = false;
+            } else {
+	            $data['is_isp1'] = (bool)$last[0]->isp1;
+	            $data['is_isp2'] = (bool)$last[0]->isp2;
+            }
 
             $data['sms_off_notified'] = (bool)$last[0]->sms_off_notified;
             $data['sms_on_notified'] = (bool)$last[0]->sms_on_notified;
