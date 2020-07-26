@@ -5,6 +5,8 @@ namespace App\Http\Models;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use \App\Http\Models\Telegram;
+use \App\Http\Models\Viber;
+use \App\Http\Models\Viberset;
 
 class Status
 {
@@ -42,6 +44,10 @@ class Status
             $data['telegram_off_notified'] = (bool)$last[0]->telegram_off_notified;
             $data['telegram_on_notified'] = (bool)$last[0]->telegram_on_notified;
             $data['telegram_on_need'] = $online_need;
+
+            $data['viber_off_notified'] = (bool)$last[0]->viber_off_notified;
+            $data['viber_on_notified'] = (bool)$last[0]->viber_on_notified;
+            $data['viber_on_need'] = $online_need;
 
             return $data;
         } else {
@@ -137,6 +143,28 @@ class Status
 
 		DB::update("UPDATE statuses SET telegram_on_notified = 1 WHERE id = '" . $data['id'] . "'");
 	}
+
+    public function viberOfflineNotify($data) {
+        $viber = new Viber(Setting::get('viber_bot_key'));
+
+        $to = explode(',', Setting::get('viber_off_to'));
+        foreach ($to as $item) {
+            $viber->sendMessage($item, Setting::get('viber_off_message'));
+        }
+
+        DB::update("UPDATE statuses SET viber_off_notified = 1 WHERE id = '" . $data['id'] . "'");
+    }
+
+    public function viberOnlineNotify($data) {
+        $viber = new Viber(Setting::get('viber_bot_key'));
+
+        $to = explode(',', Setting::get('viber_on_to'));
+        foreach ($to as $item) {
+            $viber->sendMessage($item, Setting::get('viber_on_message'));
+        }
+
+        DB::update("UPDATE statuses SET viber_on_notified = 1 WHERE id = '" . $data['id'] . "'");
+    }
 
     private function getRealIP() {
         $result = array();

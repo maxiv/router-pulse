@@ -52,7 +52,7 @@ class Telegram
 			$tu->save();
 		}
 
-		$this->sendMessage($data->message->chat->id, 'ok');
+        $this->sendMessage($data->message->chat->id, 'Insert in OFFLINE(ONLINE) Message to: ' . $tu->chat_id . ' or @' . $tu->username);
 
 		return true;
 	}
@@ -75,7 +75,7 @@ class Telegram
 			$tu->save();
 		}
 
-		$this->sendMessage($last->message->chat->id, 'ok');
+        $this->sendMessage($data->message->chat->id, 'Insert in OFFLINE(ONLINE) Message to: ' . $tu->chat_id . ' or @' . $tu->username);
 
 		return true;
 	}

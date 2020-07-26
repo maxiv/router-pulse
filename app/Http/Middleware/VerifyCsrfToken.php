@@ -8,6 +8,7 @@ class VerifyCsrfToken extends \Laravel\Lumen\Http\Middleware\VerifyCsrfToken {
 
 	protected $except_urls = [
 		'telegram/webhook',
+        'viber/webhook',
 	];
 
 	public function handle($request, Closure $next)
